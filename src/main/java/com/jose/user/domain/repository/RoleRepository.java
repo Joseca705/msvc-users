@@ -1,6 +1,6 @@
 package com.jose.user.domain.repository;
 
-import org.apache.catalina.Role;
+import com.jose.user.domain.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
