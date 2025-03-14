@@ -15,13 +15,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   private static final String[] PUBLIC_RESOURCES = {
+    "/user/**",
     "/tickets/**",
     "/swagger-ui/**",
-    "/.well-known/**, ",
     "/v3/api-docs/**",
   };
   private static final String[] USER_RESOURCES = { "/products/**" };
-  private static final String[] ADMIN_RESOURCES = { "/user/**", "/report/**" };
+  private static final String[] ADMIN_RESOURCES = { "/report/**" };
   private static final String ROLE_ADMIN = "ADMIN";
   private static final String ROLE_USER = "USER";
 

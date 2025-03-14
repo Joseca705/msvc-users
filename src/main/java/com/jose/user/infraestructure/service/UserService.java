@@ -1,7 +1,11 @@
 package com.jose.user.infraestructure.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jose.user.api.model.projection.UserUniqueFieldsProjection;
 import com.jose.user.api.model.request.CreateUserRequest;
+import com.jose.user.api.model.response.LoadedUserSecurity;
 import com.jose.user.api.model.response.UserCreatedResponse;
 import com.jose.user.domain.entity.Role;
 import com.jose.user.domain.entity.UserEntity;
@@ -13,6 +17,7 @@ import com.jose.user.infraestructure.exception.ExistingRecordException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +29,7 @@ public class UserService implements IUserService {
   private final UserRepository userRepository;
   private final UserRoleRepository userRoleRepository;
   private final BCryptPasswordEncoder encoder;
+  private final ObjectMapper mapper;
 
   @Override
   @Transactional
@@ -68,5 +74,26 @@ public class UserService implements IUserService {
     BeanUtils.copyProperties(dto, user);
     user.setPassword(encoder.encode(dto.getPassword()));
     return user;
+  }
+
+  @Override
+  public LoadedUserSecurity loadUserByUsername(String username) {
+    String foundedUser =
+      this.userRepository.findUserByUsername(username).orElseThrow(() ->
+          new UsernameNotFoundException("User not found :(")
+        );
+
+    try {
+      LoadedUserSecurity loadedUser = mapper.readValue(
+        foundedUser,
+        LoadedUserSecurity.class
+      );
+      return loadedUser;
+    } catch (JsonMappingException e) {
+      e.printStackTrace();
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

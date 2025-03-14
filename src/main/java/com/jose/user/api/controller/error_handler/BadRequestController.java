@@ -6,6 +6,7 @@ import com.jose.user.api.model.response.abstract_response.BaseErrorResponse;
 import com.jose.user.infraestructure.exception.ExistingRecordException;
 import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,6 +34,17 @@ public class BadRequestController {
   @ExceptionHandler(exception = ExistingRecordException.class)
   public BaseErrorResponse handleDuplicateRecordException(
     ExistingRecordException exception
+  ) {
+    return ErrorResponse.builder()
+      .error(exception.getMessage())
+      .status(HttpStatus.BAD_REQUEST.name())
+      .code(HttpStatus.BAD_REQUEST.value())
+      .build();
+  }
+
+  @ExceptionHandler(exception = UsernameNotFoundException.class)
+  public BaseErrorResponse handleUsernameNotFoundException(
+    UsernameNotFoundException exception
   ) {
     return ErrorResponse.builder()
       .error(exception.getMessage())
