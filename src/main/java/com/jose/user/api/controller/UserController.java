@@ -33,7 +33,7 @@ public class UserController {
     );
   }
 
-  //FIX: add secure 
+  //FIX: add secure
   @GetMapping("/username/{username}")
   public ResponseEntity<LoadedUserSecurity> findUserByUsername(
     @PathVariable String username

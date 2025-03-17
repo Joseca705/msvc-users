@@ -7,14 +7,13 @@ CREATE TABLE kardex (
 	updated_by int4 NULL,
 	amount int4 NOT NULL,
 	balance_amount numeric(38, 2) NULL,
-	movement_date timestamp(6) NOT NULL,
 	movement_type varchar(255) NOT NULL,
 	reference varchar(255) NULL,
 	total_price numeric(38, 2) NULL,
 	unit_price numeric(38, 2) NOT NULL,
 	batch_id int4 NOT NULL,
 	product_id int4 NOT NULL,
-	user_id int4 NOT NULL,
+  reference_id int4 NOT NULL,
 	CONSTRAINT kardex_pkey PRIMARY KEY (id),
 	CONSTRAINT kardex_status_check CHECK (((status)::text = ANY ((ARRAY['ACTIVE'::character varying, 'INACTIVE'::character varying])::text[])))
 );
@@ -23,5 +22,4 @@ CREATE TABLE kardex (
 -- public.kardex foreign keys
 
 ALTER TABLE kardex ADD CONSTRAINT fka2sqr7uuc2l8f0543llm8uv2u FOREIGN KEY (batch_id) REFERENCES batch_stock(id);
-ALTER TABLE kardex ADD CONSTRAINT fkfy33ajrbkw7d637l82ge2n441 FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE kardex ADD CONSTRAINT fkoy4sn315wjdgxdkobgemm4fty FOREIGN KEY (product_id) REFERENCES products(id);

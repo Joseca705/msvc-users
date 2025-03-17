@@ -2,7 +2,6 @@ package com.jose.user.domain.repository;
 
 import com.jose.user.api.model.projection.UserUniqueFieldsProjection;
 import com.jose.user.domain.entity.UserEntity;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
