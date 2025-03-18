@@ -40,8 +40,6 @@ CREATE TABLE IF NOT EXISTS batch_stock (
 	updated_at timestamp(6) NULL,
 	updated_by int4 NULL,
 	acquisition_date date NOT NULL,
-	active bool NOT NULL,
-	current_amount int4 NOT NULL,
 	expiration_date date NOT NULL,
 	initial_amount int4 NOT NULL,
 	purchase_price numeric(38, 4) NOT NULL,
