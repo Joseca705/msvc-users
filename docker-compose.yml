@@ -1,7 +1,7 @@
 services:
   eureka-server:
     container_name: eureka-server
-    image: josec/eureka:latest
+    image: carl932/eureka-server:latest
     ports:
       - "8761:8761"
     restart: always
@@ -9,7 +9,7 @@ services:
       - springcloud
   msvc-oauth:
     container_name: msvc-oauth
-    image: josec/oauth:latest
+    image: carl932/msvc-oauth:latest
     restart: always
     ports:
       - "9000:9000"
@@ -29,7 +29,7 @@ services:
       POSTGRES_DB: database_db
       POSTGRES_PASSWORD: postgres
   msvc-users:
-    image: josec/users:latest
+    image: carl932/msvc-users:latest
     restart: always
     networks:
       - springcloud
@@ -39,7 +39,7 @@ services:
       - msvc-oauth
   msvc-kardex:
     container_name: msvc-kardex
-    image: josec/kardex:latest
+    image: carl932/msvc-kardex:latest
     ports:
       - "8070:8070"
     restart: always
@@ -49,9 +49,10 @@ services:
       - pg16
       - eureka-server
       - msvc-oauth
+      - msvc-users
   msvc-store:
     container_name: msvc-store
-    image: josec/store:latest
+    image: carl932/msvc-store:latest
     restart: always
     ports:
       - "8050:8050"
@@ -60,11 +61,12 @@ services:
     depends_on:
       - eureka-server
       - msvc-kardex
+      - msvc-users
       - msvc-oauth
       - pg16
   msvc-sales:
     container_name: msvc-sales
-    image: josec/sales:latest
+    image: carl932/msvc-sales:latest
     restart: always
     ports:
       - "8060:8060"
@@ -73,6 +75,7 @@ services:
     depends_on:
       - eureka-server
       - msvc-kardex
+      - msvc-users
       - msvc-oauth
       - pg16
 networks:
